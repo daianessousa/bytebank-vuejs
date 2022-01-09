@@ -16,21 +16,19 @@ export default {
   },
   data() {
     return {
-      gerentes: [
-        {
-          nome: 'Paulo',
-          agencia: 1000
-        },
-        {
-          nome: 'Guilherme',
-          agencia: 2000
-        },
-        {
-          nome: 'Ricardo',
-          agencia: 3000
-        }
-      ]
+      gerentes: []
     }
+  },
+  mounted () {
+    this.$http.get('gerentes')
+      .then(respose => this.gerentes = respose.data)
+      .catch(err => console.log(err))
+  },
+  beforeRouteEnter (to, from, next) {
+    if (!this.$store.state.token) {
+        next( { name: 'login' })
+    }
+    next()
   }
 }
 </script>
